@@ -2,7 +2,6 @@ package com.hackerrank.javacl.datastructures;
 
 import java.util.*;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
 
 /**
  * Created by raistlin on 8/7/2017.
@@ -187,13 +186,98 @@ public class DataStructureChallenge {
         }
     }
 
+    private static void leapGame() {
+        Scanner s = new Scanner(System.in);
+        int q = s.nextInt();
+
+        s.nextLine();
+        for(int i = 0; i < q; ++i) {
+            String[] leapAndN = s.nextLine().split(" ");
+            List<Integer> numbers = Arrays.stream(s.nextLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList());
+
+            //System.out.println(new LeapGame(Integer.parseInt(leapAndN[1]), numbers.toArray()).play());
+        }
+    }
+
+    private static void stackPlay() {
+        Scanner sc = new Scanner(System.in);
+
+        Map<Character, Character> parens = new HashMap<>();
+        parens.put(')', '(');
+        parens.put(']', '[');
+        parens.put('}', '{');
+
+        while (sc.hasNext()) {
+            String input = sc.next();
+            ArrayDeque<Character> stack = new ArrayDeque<>();
+
+            for(char c : input.toCharArray()) {
+                if(parens.values().contains(c)) {
+                    stack.push(c);
+                } else if(! stack.isEmpty() && stack.peek() == parens.get(c)) {
+                    stack.pop();
+                } else {
+                    stack.push(c);
+                }
+            }
+
+            System.out.println(stack.isEmpty());
+        }
+    }
+
+    private static void bitsetPlay() {
+        Scanner in = new Scanner(System.in);
+
+        int size = in.nextInt();
+        int opers = in.nextInt();
+
+        in.nextLine();
+        for(int i = 0; i < opers; ++i) {
+            String[] input = in.nextLine().split(" ");
+
+            String op = input[0];
+
+        }
+    }
+
     public static void main(String[] args) {
         // twoDimArrayHourGlass();
         // negativeSubArrays();
         // listOfArrays();
         // listPlay();
         // mapPlay();
-        setPlay();
+        // setPlay();
+        // leapGame();
+        stackPlay();
+    }
+}
+
+class LeapGame {
+    final int leap;
+    final int[] array;
+
+    LeapGame(int leap, int[] array) {
+        this.leap = leap;
+        this.array = array;
+    }
+
+    private boolean doPlay(int pos, Set<Integer> visited) {
+        if(visited.contains(pos) || pos < 0 || array[pos] != 0) {
+            return false;
+        }
+
+        if(pos == array.length - 1 || pos + leap >= array.length) {
+            return true;
+        }
+
+        visited.add(pos);
+        return doPlay(pos + 1, visited)
+                || doPlay(pos - 1, visited)
+                || doPlay(pos + leap, visited);
+    }
+
+    boolean play() {
+        return doPlay(0, new HashSet<>());
     }
 }
 
