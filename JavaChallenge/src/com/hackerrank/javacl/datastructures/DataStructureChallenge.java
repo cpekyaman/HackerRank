@@ -232,11 +232,35 @@ public class DataStructureChallenge {
         int opers = in.nextInt();
 
         in.nextLine();
+
+        final BitSet[] bitSets = new BitSet[] { new BitSet(size), new BitSet(size) };
         for(int i = 0; i < opers; ++i) {
-            String[] input = in.nextLine().split(" ");
+            final String op = in.next();
+            final int left = in.nextInt();
+            final int right = in.nextInt();
 
-            String op = input[0];
+            applyOperation(bitSets, op, left, right);
+            System.out.printf("%d %d\n", bitSets[0].cardinality(), bitSets[1].cardinality());
+        }
+    }
 
+    private static void applyOperation(BitSet[] bitSets, String op, int left, int right) {
+        switch(op) {
+            case "AND":
+                bitSets[left - 1].and(bitSets[right - 1]);
+                break;
+            case "OR":
+                bitSets[left - 1].or(bitSets[right - 1]);
+                break;
+            case "XOR":
+                bitSets[left - 1].xor(bitSets[right - 1]);
+                break;
+            case "FLIP":
+                bitSets[left - 1].flip(right);
+                break;
+            case "SET":
+                bitSets[left - 1].set(right);
+                break;
         }
     }
 
@@ -248,7 +272,8 @@ public class DataStructureChallenge {
         // mapPlay();
         // setPlay();
         // leapGame();
-        stackPlay();
+        // stackPlay();
+        bitsetPlay();
     }
 }
 
@@ -312,25 +337,25 @@ class Checker implements Comparator<Player> {
 
 class Student {
     private int id;
-    private String fname;
+    private String name;
     private double cgpa;
 
-    public Student(int id, String fname, double cgpa) {
+    public Student(int id, String name, double cgpa) {
         super();
         this.id = id;
-        this.fname = fname;
+        this.name = name;
         this.cgpa = cgpa;
     }
 
-    public int getId() {
+    int getID() {
         return id;
     }
 
-    public String getFname() {
-        return fname;
+    String getName() {
+        return name;
     }
 
-    public double getCgpa() {
+    double getCGPA() {
         return cgpa;
     }
 }
@@ -338,13 +363,47 @@ class Student {
 class StudentComparator implements Comparator<Student> {
     @Override
     public int compare(Student o1, Student o2) {
-        int result = Double.compare(o2.getCgpa(), o1.getCgpa());
+        int result = Double.compare(o2.getCGPA(), o1.getCGPA());
         if (result == 0) {
-            result = o1.getFname().compareTo(o2.getFname());
+            result = o1.getName().compareTo(o2.getName());
             if (result == 0) {
-                result = Integer.valueOf(o1.getId()).compareTo(o2.getId());
+                result = Integer.valueOf(o1.getID()).compareTo(o2.getID());
             }
         }
         return result;
+    }
+}
+
+class Priorities {
+    private final PriorityQueue<Student> students;
+    private final Comparator<Student> studentComparator;
+
+    Priorities() {
+        studentComparator = Comparator.comparing(Student::getCGPA).reversed()
+                .thenComparing(Student::getName)
+                .thenComparing(Student::getName);
+        students = new PriorityQueue<>(
+                studentComparator);
+    }
+
+    private Student parseStudent(String[] eventData) {
+        return new Student(Integer.parseInt(eventData[3]), eventData[1], Double.parseDouble(eventData[2]));
+    }
+
+    List<Student> getStudents(List<String> events) {
+        for(String event : events) {
+            String[] eventData = event.split(" ");
+            if("ENTER".equals(eventData[0])) {
+                students.offer(parseStudent(eventData));
+            } else if("SERVED".equals(eventData[0])) {
+                if(! students.isEmpty()) {
+                    students.poll();
+                }
+            }
+        }
+
+        List<Student> results = new ArrayList<>(students);
+        results.sort(studentComparator);
+        return results;
     }
 }
