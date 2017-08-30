@@ -6,8 +6,9 @@ import java.util.stream.Collectors;
 /**
  * Created by raistlin on 8/7/2017.
  */
-public class DataStructureChallenge {
-    private static int hourglassSum(int arr[][], int row, int column) {
+
+class TwoDimArrayHourGlass {
+    private int hourglassSum(int arr[][], int row, int column) {
         int sum = 0;
 
         sum += arr[row][column] + arr[row][column + 1] + arr[row][column + 2];
@@ -17,11 +18,7 @@ public class DataStructureChallenge {
         return sum;
     }
 
-    private static void twoDimArrayHourGlass() {
-        findMaxHourglassSum(fillHourGlassArray());
-    }
-
-    private static void findMaxHourglassSum(int[][] arr) {
+    private void findMaxHourglassSum(int[][] arr) {
         int maxSum = Integer.MIN_VALUE;
         for (int row = 0; row <= 3; ++row) {
             for (int column = 0; column <= 3; column++) {
@@ -34,7 +31,7 @@ public class DataStructureChallenge {
         System.out.println(maxSum);
     }
 
-    private static int[][] fillHourGlassArray() {
+    private int[][] fillHourGlassArray() {
         Scanner in = new Scanner(System.in);
         int arr[][] = new int[6][6];
         for (int i = 0; i < 6; i++) {
@@ -45,7 +42,13 @@ public class DataStructureChallenge {
         return arr;
     }
 
-    private static int subArraysForSize(int[] arr, int size) {
+    void run() {
+        findMaxHourglassSum(fillHourGlassArray());
+    }
+}
+
+class NegativeSubarrays {
+    private int subArraysForSize(int[] arr, int size) {
         int count = 0;
 
         for (int i = 0; i <= arr.length - size; ++i) {
@@ -61,7 +64,7 @@ public class DataStructureChallenge {
         return count;
     }
 
-    private static void negativeSubArrays() {
+    void run() {
         Scanner in = new Scanner(System.in);
         int n = in.nextInt();
         int[] arr = new int[n];
@@ -81,8 +84,10 @@ public class DataStructureChallenge {
 
         System.out.println(negativeCount);
     }
+}
 
-    private static void listOfArrays() {
+class ListOfArrays {
+    private void run() {
         Scanner in = new Scanner(System.in);
         int arrayCount = in.nextInt();
         List<int[]> rows = new ArrayList<>(arrayCount);
@@ -109,8 +114,10 @@ public class DataStructureChallenge {
             }
         }
     }
+}
 
-    private static void listPlay() {
+class ListDemo {
+    void run() {
         Scanner in = new Scanner(System.in);
         final int listSize = in.nextInt();
 
@@ -135,8 +142,10 @@ public class DataStructureChallenge {
 
         System.out.println(list.stream().map(String::valueOf).collect(Collectors.joining(" ")));
     }
+}
 
-    private static void mapPlay() {
+class MapDemo {
+    void run() {
         Scanner in = new Scanner(System.in);
         int mapSize = in.nextInt();
         in.nextLine();
@@ -167,8 +176,10 @@ public class DataStructureChallenge {
         });
         System.out.println(sb);
     }
+}
 
-    private static void setPlay() {
+class SetDemo {
+    void run() {
         Scanner s = new Scanner(System.in);
         int t = s.nextInt();
         String[] pair_left = new String[t];
@@ -185,21 +196,10 @@ public class DataStructureChallenge {
             System.out.println(uniquePairs.size());
         }
     }
+}
 
-    private static void leapGame() {
-        Scanner s = new Scanner(System.in);
-        int q = s.nextInt();
-
-        s.nextLine();
-        for(int i = 0; i < q; ++i) {
-            String[] leapAndN = s.nextLine().split(" ");
-            List<Integer> numbers = Arrays.stream(s.nextLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList());
-
-            //System.out.println(new LeapGame(Integer.parseInt(leapAndN[1]), numbers.toArray()).play());
-        }
-    }
-
-    private static void stackPlay() {
+class StackDemo {
+    void run() {
         Scanner sc = new Scanner(System.in);
 
         Map<Character, Character> parens = new HashMap<>();
@@ -211,10 +211,10 @@ public class DataStructureChallenge {
             String input = sc.next();
             ArrayDeque<Character> stack = new ArrayDeque<>();
 
-            for(char c : input.toCharArray()) {
-                if(parens.values().contains(c)) {
+            for (char c : input.toCharArray()) {
+                if (parens.values().contains(c)) {
                     stack.push(c);
-                } else if(! stack.isEmpty() && stack.peek() == parens.get(c)) {
+                } else if (!stack.isEmpty() && stack.peek() == parens.get(c)) {
                     stack.pop();
                 } else {
                     stack.push(c);
@@ -224,8 +224,10 @@ public class DataStructureChallenge {
             System.out.println(stack.isEmpty());
         }
     }
+}
 
-    private static void bitsetPlay() {
+class BitSetDemo {
+    void run() {
         Scanner in = new Scanner(System.in);
 
         int size = in.nextInt();
@@ -233,8 +235,8 @@ public class DataStructureChallenge {
 
         in.nextLine();
 
-        final BitSet[] bitSets = new BitSet[] { new BitSet(size), new BitSet(size) };
-        for(int i = 0; i < opers; ++i) {
+        final BitSet[] bitSets = new BitSet[]{new BitSet(size), new BitSet(size)};
+        for (int i = 0; i < opers; ++i) {
             final String op = in.next();
             final int left = in.nextInt();
             final int right = in.nextInt();
@@ -244,8 +246,8 @@ public class DataStructureChallenge {
         }
     }
 
-    private static void applyOperation(BitSet[] bitSets, String op, int left, int right) {
-        switch(op) {
+    void applyOperation(BitSet[] bitSets, String op, int left, int right) {
+        switch (op) {
             case "AND":
                 bitSets[left - 1].and(bitSets[right - 1]);
                 break;
@@ -263,17 +265,49 @@ public class DataStructureChallenge {
                 break;
         }
     }
+}
+
+class PriorityQueueDemo {
+    void run() {
+        Scanner in = new Scanner(System.in);
+
+        int eventCount = in.nextInt();
+        in.nextLine();
+
+        List<String> events = new ArrayList<>();
+        for (int i = 0; i < eventCount; ++i) {
+            events.add(in.nextLine());
+        }
+
+        Priorities priorities = new Priorities();
+        List<Student> students = priorities.getStudents(events);
+        if (students.isEmpty()) {
+            System.out.println("EMPTY");
+        } else {
+            for (Student st : students) {
+                System.out.println(st.getName());
+            }
+        }
+    }
+}
+
+public class DataStructureChallenge {
+
+    private static void leapGame() {
+        Scanner s = new Scanner(System.in);
+        int q = s.nextInt();
+
+        s.nextLine();
+        for (int i = 0; i < q; ++i) {
+            String[] leapAndN = s.nextLine().split(" ");
+            List<Integer> numbers = Arrays.stream(s.nextLine().split(" ")).map(Integer::parseInt).collect(Collectors.toList());
+
+            //System.out.println(new LeapGame(Integer.parseInt(leapAndN[1]), numbers.toArray()).play());
+        }
+    }
 
     public static void main(String[] args) {
-        // twoDimArrayHourGlass();
-        // negativeSubArrays();
-        // listOfArrays();
-        // listPlay();
-        // mapPlay();
-        // setPlay();
-        // leapGame();
-        // stackPlay();
-        bitsetPlay();
+
     }
 }
 
@@ -287,11 +321,11 @@ class LeapGame {
     }
 
     private boolean doPlay(int pos, Set<Integer> visited) {
-        if(visited.contains(pos) || pos < 0 || array[pos] != 0) {
+        if (visited.contains(pos) || pos < 0 || array[pos] != 0) {
             return false;
         }
 
-        if(pos == array.length - 1 || pos + leap >= array.length) {
+        if (pos == array.length - 1 || pos + leap >= array.length) {
             return true;
         }
 
@@ -381,7 +415,7 @@ class Priorities {
     Priorities() {
         studentComparator = Comparator.comparing(Student::getCGPA).reversed()
                 .thenComparing(Student::getName)
-                .thenComparing(Student::getName);
+                .thenComparing(Student::getID);
         students = new PriorityQueue<>(
                 studentComparator);
     }
@@ -391,12 +425,12 @@ class Priorities {
     }
 
     List<Student> getStudents(List<String> events) {
-        for(String event : events) {
+        for (String event : events) {
             String[] eventData = event.split(" ");
-            if("ENTER".equals(eventData[0])) {
+            if ("ENTER".equals(eventData[0])) {
                 students.offer(parseStudent(eventData));
-            } else if("SERVED".equals(eventData[0])) {
-                if(! students.isEmpty()) {
+            } else if ("SERVED".equals(eventData[0])) {
+                if (!students.isEmpty()) {
                     students.poll();
                 }
             }
