@@ -1,4 +1,4 @@
-package com.hackerrank.funcional.intro
+package com.hackerrank.functional.intro
 
 /**
   * Created by raistlin on 9/14/2017.

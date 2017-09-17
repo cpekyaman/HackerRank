@@ -1,4 +1,4 @@
-package com.hackerrank.funcional.intro
+package com.hackerrank.functional.intro
 
 import scala.util.Random
 
